@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ByCoders</title>
+</head>
+<body>
+   <div>
+     <h3>ByCoders - Upload And List</h3>
+     <!-- <form id="uploadFiles" name="uploadFiles" method="post" th:action=@{/uploadFiles} encType="multipart/form-data">
+       <input type="file" name="files" multiple required />
+       <button type="submit">Submit</button>
+     </form>  -->
+   </div>
+   
+   <div>
+     <h3>List of Documents</h3>
+     <table>
+       <thead>
+         <tr>
+           <th>Id</th>
+           <th>Cartao</th>
+           <th>CPF</th>
+           <th>Data</th>
+           <th>Hora</th>
+           <th>Loja</th>
+           <th>Responsavel</th>
+           <th>Tipo</th>
+           <th>Valor</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr th:each="fin:${fins}">
+           <td th:text="${fin.Id}" />
+           <td th:text="${fin.cartao}"/>
+          <td th:text="${fin.usuario.cpf}"/>
+           <td th:text="${fin.data}"/>
+           <td th:text="${fin.hora}"/>
+           <td th:text="${fin.loja.nome}"/>
+           <td th:text="${fin.usuario.nome}"/>
+           <td th:text="${fin.tipo}"/>
+           <td th:text="${fin.valor}"/>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+
+</body>
+</html>
