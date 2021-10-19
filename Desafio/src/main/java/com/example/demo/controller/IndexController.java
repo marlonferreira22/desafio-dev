@@ -5,28 +5,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.model.Doc;
@@ -39,8 +36,9 @@ import com.example.demo.service.FinanceiroStorageService;
 import com.example.demo.service.LojaStorageService;
 import com.example.demo.service.UsuarioStorageService;
 
-@Controller
-public class DocController {
+@RestController
+@RequestMapping(value = "/index")
+public class IndexController {
 
 	@Autowired 
 	private DocStorageService docStorageService;
@@ -54,14 +52,11 @@ public class DocController {
 	@Autowired
 	private LojaStorageService lojaStorageService;
 	
-	@GetMapping("/")
-	public String get(Model model) {
-		/*List<Doc> docs = docStorageService.getFiles();
-		model.addAttribute("docs", docs);
-		return "doc";*/
+	@GetMapping(value = "/", produces = "application/json")
+	public List<Financeiro> get() {
 		List<Financeiro> fins = financeiroStorageService.getFinancas();
-		model.addAttribute("fins", fins);
-		return "index";
+		
+		return fins;
 	}
 	
 	@GetMapping("/details/{lojaId}")
@@ -141,8 +136,6 @@ public class DocController {
 		//fin.setResponsavel(responsavel);
 		//fin.setLoja(loja);
 		
-		loja = StringUtils.trimWhitespace(loja);
-		
 		Loja lojaObj = lojaStorageService.getLojaByNome(loja);
 		if(lojaObj == null) {
 			Loja lojaNova = new Loja(loja);
@@ -152,7 +145,6 @@ public class DocController {
 			fin.setLoja(lojaObj);
 		}
 		
-		responsavel = StringUtils.trimWhitespace(responsavel);
 		
 		Usuario usuario = usuarioStorageService.getUsuario(cpf);
 		BigDecimal novoSaldo = new BigDecimal(0);
