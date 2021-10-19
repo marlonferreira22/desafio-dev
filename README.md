@@ -90,7 +90,7 @@ Boa sorte!
 
 **Tecnologias utilizadas:**
 
-.Frontend: Thymeleaf e HTML.
+Frontend: Thymeleaf e HTML.
 
 Backend: Java 8, SpringBoot, Maven, Swagger.
 
