@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="financeiro")
@@ -18,10 +24,12 @@ public class Financeiro {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;	
 	private String tipo;
-	private String data;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date data;
 	private BigDecimal valor;
 	private String cartao;
-	private String hora;
+	@DateTimeFormat(pattern = "HH:mm:ss")
+	private Time hora;
 	/*private String loja;*/
 	
 	@ManyToOne
@@ -52,11 +60,11 @@ public class Financeiro {
 		this.tipo = tipo;
 	}
 
-	public String getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 
@@ -76,11 +84,11 @@ public class Financeiro {
 		this.cartao = cartao;
 	}
 
-	public String getHora() {
+	public Time getHora() {
 		return hora;
 	}
 
-	public void setHora(String hora) {
+	public void setHora(Time hora) {
 		this.hora = hora;
 	}
 
@@ -106,7 +114,7 @@ public class Financeiro {
 				+ ", hora=" + hora + ", loja=" + loja + ", usuario=" + usuario + "]";
 	}
 
-	public Financeiro(Integer id, String tipo, String data, BigDecimal valor, String cartao, String hora, Loja loja,
+	public Financeiro(Integer id, String tipo, Date data, BigDecimal valor, String cartao, Time hora, Loja loja,
 			Usuario usuario) {
 		super();
 		this.id = id;

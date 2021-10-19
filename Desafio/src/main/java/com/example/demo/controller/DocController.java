@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,7 +73,7 @@ public class DocController {
 	}
 	
 	@PostMapping("/uploadFiles")
-	public String uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException {
+	public String uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException, ParseException {
 		for (MultipartFile file: files) {
 			
 			//Interpretar ("parsear") o arquivo recebido, normalizar os dados, e salvar corretamente a informação em um banco
@@ -113,7 +117,7 @@ public class DocController {
 				.body(new ByteArrayResource(doc.getData()));
 	}
 	
-	public Financeiro setValores(String att) {
+	public Financeiro setValores(String att) throws ParseException {
 		
 		Financeiro fin = new Financeiro();
 		
@@ -127,11 +131,11 @@ public class DocController {
 		String loja = att.substring(62, 80);
 		
 		fin.setTipo(tipo);
-		fin.setData(data);
+		fin.setData(convertToDate(data));
 		fin.setValor(convertToBigDecimal(valor));
 		//fin.setCpf(cpf);
 		fin.setCartao(cartao);
-		fin.setHora(hora);
+		fin.setHora(convertToHours(hora));
 		//fin.setResponsavel(responsavel);
 		//fin.setLoja(loja);
 		
@@ -215,6 +219,20 @@ public class DocController {
 		BigDecimal valorConvertido = new BigDecimal(valor);
 		BigDecimal divisor = new BigDecimal("100.00");
 		return valorConvertido.divide(divisor);
+	}
+	
+	public Date convertToDate(String data) throws ParseException{
+		
+		//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
+		return new Date(formato.parse(data).getTime());
+		
+	}
+	
+	public Time convertToHours(String hora) throws ParseException{
+		
+		SimpleDateFormat formato = new SimpleDateFormat("HHmmss");		
+		return new Time(formato.parse(hora).getTime());
 	}
 	
 }
