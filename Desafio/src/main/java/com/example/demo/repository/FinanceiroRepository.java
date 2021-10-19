@@ -10,7 +10,7 @@ import com.example.demo.model.Financeiro;
 
 public interface FinanceiroRepository extends JpaRepository<Financeiro,Integer>{
 
-	Optional<Financeiro> findAllByLoja(String nome);
+	//Optional<Financeiro> findAllByLoja(String nome);
 
 	List<Financeiro> findAllByLojaId(Integer lojaId);
 

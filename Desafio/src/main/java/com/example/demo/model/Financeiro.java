@@ -128,6 +128,18 @@ public class Financeiro {
 		this.hora = hora;
 		this.loja = loja;
 		this.usuario = usuario;
+	}
+
+	public Financeiro(TipoOperacao tipo, Date data, BigDecimal valor, String cartao, Time hora, Loja loja,
+			Usuario usuario) {
+		super();
+		this.tipo = tipo;
+		this.data = data;
+		this.valor = valor;
+		this.cartao = cartao;
+		this.hora = hora;
+		this.loja = loja;
+		this.usuario = usuario;
 	}	
 	
 	

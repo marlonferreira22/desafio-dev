@@ -35,9 +35,9 @@ public class FinanceiroStorageService {
 	  return financeiroRepository.findAll().stream().filter(distinctByKey(p -> p.getLoja().getNome())).collect(Collectors.toList());
   }
   
-  public Optional<Financeiro> getFinancasPorNome(String nome){
+  /*public Optional<Financeiro> getFinancasPorNome(String nome){
 	  return financeiroRepository.findAllByLoja(nome);
-  }
+  }*/
 
   public List<Financeiro> getFinancasByLojaId(Integer lojaId) {
 	return financeiroRepository.findAllByLojaId(lojaId);
