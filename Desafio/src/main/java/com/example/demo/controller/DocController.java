@@ -5,15 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -56,9 +53,7 @@ public class DocController {
 	
 	@GetMapping("/")
 	public String get(Model model) {
-		/*List<Doc> docs = docStorageService.getFiles();
-		model.addAttribute("docs", docs);
-		return "doc";*/
+		
 		List<Financeiro> fins = financeiroStorageService.getFinancas();
 		model.addAttribute("fins", fins);
 		return "index";
@@ -66,9 +61,7 @@ public class DocController {
 	
 	@GetMapping("/details/{lojaId}")
 	public String getDetail(Model model, @PathVariable Integer lojaId) {
-		/*List<Doc> docs = docStorageService.getFiles();
-		model.addAttribute("docs", docs);
-		return "doc";*/
+		
 		List<Financeiro> fins = financeiroStorageService.getFinancasByLojaId(lojaId);
 		model.addAttribute("fins", fins);
 		return "detalhe";
@@ -78,26 +71,11 @@ public class DocController {
 	public String uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) throws IOException, ParseException {
 		for (MultipartFile file: files) {
 			
-			//Interpretar ("parsear") o arquivo recebido, normalizar os dados, e salvar corretamente a informação em um banco
-			
-			
-			/*byte[] content = file.getBytes();
-			String att = new String(content);
-			
-			Financeiro fin = setValoresFinanceiro(att);
-			
-			System.out.println(fin);
-			
-			financeiroStorageService.saveFinanceiro(fin);
-			
-			docStorageService.saveFile(file);*/
-			
 			InputStream inputStream = file.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             List<String> list = br.lines().collect(Collectors.toList());
             
             for (int i = 0; i < list.size(); i++) {
-            	 //System.out.println(list.get(i));
             	 Financeiro fin = setValores(list.get(i));
             	 System.out.println(fin);
             	 
@@ -135,11 +113,8 @@ public class DocController {
 		fin.setTipo(convetTipoOperacao(tipo));
 		fin.setData(convertToDate(data));
 		fin.setValor(convertToBigDecimal(valor));
-		//fin.setCpf(cpf);
 		fin.setCartao(cartao);
 		fin.setHora(convertToHours(hora));
-		//fin.setResponsavel(responsavel);
-		//fin.setLoja(loja);
 		
 		loja = StringUtils.trimWhitespace(loja);
 		
@@ -201,19 +176,9 @@ public class DocController {
 				break;
 			}
 			
-			//BigDecimal novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
 			usuario.setSaldo(novoSaldo);
 			usuarioStorageService.saveUsuario(usuario);
 		}
-		
-		/*System.out.println("tipo: " + tipo); 
-		System.out.println("data: " + data);
-		System.out.println("valor: " + valor);
-		System.out.println("cpf: " + cpf);
-		System.out.println("cartao: " + cartao);
-		System.out.println("hora: " + hora);
-		System.out.println("responsavel: " + responsavel);
-		System.out.println("loja: " + loja);*/
 		
 		return fin;
 		
@@ -228,7 +193,6 @@ public class DocController {
 	
 	public Date convertToDate(String data) throws ParseException{
 		
-		//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
 		return new Date(formato.parse(data).getTime());
 		

@@ -121,30 +121,5 @@ public class FinanceiroRepositoryTest {
 		List<Financeiro> finObj = financeiroRepository.findAllByLojaId(loja.getId());
 				
 		Assertions.assertThat(finObj.size()).isEqualTo(2);
-	}
-	
-	/*@Test
-	public void pesquisaPeloNomeDaLoja() {
-		
-		Loja loja = new Loja("Loja 1");
-		loja = this.lojaRepository.save(loja);
-		
-		Usuario usuario = new Usuario("Marlon", "12345678909", new BigDecimal("100"));
-		usuario = this.usuarioRepository.save(usuario);
-		
-		Date data = new Date(2021,07,05);
-		Time hora = new Time(12, 34, 56);
-		TipoOperacao tp = null;
-		
-		Financeiro fin = new Financeiro(tp.ALUGUEL,data,new BigDecimal("120"), "123***456",hora,loja,usuario);
-		Financeiro fin2 = new Financeiro(tp.ALUGUEL,data,new BigDecimal("240"), "987***654",hora,loja,usuario);
-		this.financeiroRepository.save(fin);
-		this.financeiroRepository.save(fin2);
-		
-		Optional<Financeiro> finObj = financeiroRepository.findAllByLoja(loja.getNome());
-				
-		Assertions.assertThat(finObj.get().getLoja().getNome()).isEqualTo("Loja 1");
-	}*/
-	
-	
+	}	
 }
