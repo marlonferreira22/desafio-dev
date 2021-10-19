@@ -83,3 +83,33 @@ Este desafio foi baseado neste outro desafio: https://github.com/lschallenges/da
 ---
 
 Boa sorte!
+
+---
+
+# Documentação
+
+**Tecnologias utilizadas:**
+
+Frontend: Thymeleaf e HTML
+Backend: Java 8, SpringBoot, Maven, Swagger
+Banco de dados: MySQL e H2
+
+**Configuração:**
+
+1. Faça o clone do projeto no servidor/maquina.
+2. Abra em um editor de texto o arquivo application.properties que se encontra no caminho: src/main/resources/application.properties
+3. Nas linhas 11 e 12, insira os dados de conexão com o seu MySQL. 
+4. Caso o seu banco de dados não esteja no localhost, edite a linha 7 informando o ip e porta do seu MySQL.
+5. Salve o arquivo.
+6. Acesse seu MySQL e execute a seguinte query: CREATE SCHEMA `desafio_db` ;
+7. Vá para o diretorio /src do projeto e digite o comando: mvn clean install
+8. Quando o item 7 terminar, será criado um novo diretorio chamado "target", acesse este diretorio.
+9. Devera ter sido criado o arquivo "Desafio-0.0.1-SNAPSHOT.jar"
+10. Em seguida, basta digitar o comando: java -jar Desafio-0.0.1-SNAPSHOT.jar e o projeto estará sendo executado.
+10.1. Caso o comando do item 10 tenha dado algum erro, pode ir para o diretorio raiz do projeto e executar o comando: ./mvnw spring-boot:run
+
+**Acessos:**
+
+Para acessar via navegador, basta informar o endereco: http://localhost:8777/
+Foi gerada automaticamente a documentacao do endpoints utilizando Swagger, que pode ser acessa pelo endereco: http://localhost:8777/swagger-ui.html
+Endereco de exemplo para acessar um endpoint: http://localhost:8777/api/usuario
