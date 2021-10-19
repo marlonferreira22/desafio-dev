@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.model.Doc;
 import com.example.demo.model.Financeiro;
 import com.example.demo.model.Loja;
+import com.example.demo.model.TipoOperacao;
 import com.example.demo.model.Usuario;
 import com.example.demo.service.DocStorageService;
 import com.example.demo.service.FinanceiroStorageService;
@@ -130,7 +131,7 @@ public class DocController {
 		String responsavel = att.substring(48, 62);
 		String loja = att.substring(62, 80);
 		
-		fin.setTipo(tipo);
+		fin.setTipo(convetTipoOperacao(tipo));
 		fin.setData(convertToDate(data));
 		fin.setValor(convertToBigDecimal(valor));
 		//fin.setCpf(cpf);
@@ -233,6 +234,46 @@ public class DocController {
 		
 		SimpleDateFormat formato = new SimpleDateFormat("HHmmss");		
 		return new Time(formato.parse(hora).getTime());
+	}
+	
+	public TipoOperacao convetTipoOperacao(String tipo) {
+		
+		TipoOperacao result;
+		
+		switch (tipo) {
+		case "1":
+			result = TipoOperacao.DEBITO;
+			break;
+		case "2":
+			result = TipoOperacao.BOLETO;
+			break;
+		case "3":
+			result = TipoOperacao.FINANCIAMENTO;
+			break;
+		case "4":
+			result = TipoOperacao.CREDITO;
+			break;
+		case "5":
+			result = TipoOperacao.EMPRESTIMO;
+			break;
+		case "6":
+			result = TipoOperacao.VENDAS;
+			break;
+		case "7":
+			result = TipoOperacao.TED;
+			break;
+		case "8":
+			result = TipoOperacao.DOC;
+			break;
+		case "9":
+			result = TipoOperacao.ALUGUEL;
+			break;
+		default:
+			result = TipoOperacao.DEBITO;
+			break;
+		}
+		
+		return result;
 	}
 	
 }

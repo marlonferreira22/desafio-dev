@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.Time;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +25,8 @@ public class Financeiro {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;	
-	private String tipo;
+	@Enumerated(value = EnumType.STRING)
+	private TipoOperacao tipo;
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date data;
 	private BigDecimal valor;
@@ -52,11 +55,11 @@ public class Financeiro {
 		this.id = id;
 	}
 
-	public String getTipo() {
+	public TipoOperacao getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoOperacao tipo) {
 		this.tipo = tipo;
 	}
 
@@ -114,7 +117,7 @@ public class Financeiro {
 				+ ", hora=" + hora + ", loja=" + loja + ", usuario=" + usuario + "]";
 	}
 
-	public Financeiro(Integer id, String tipo, Date data, BigDecimal valor, String cartao, Time hora, Loja loja,
+	public Financeiro(Integer id, TipoOperacao tipo, Date data, BigDecimal valor, String cartao, Time hora, Loja loja,
 			Usuario usuario) {
 		super();
 		this.id = id;
