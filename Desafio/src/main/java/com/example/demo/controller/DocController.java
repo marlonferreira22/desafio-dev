@@ -5,18 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,15 +19,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.model.Doc;
 import com.example.demo.model.Financeiro;
 import com.example.demo.model.Loja;
-import com.example.demo.model.TipoOperacao;
 import com.example.demo.model.Usuario;
 import com.example.demo.service.DocStorageService;
 import com.example.demo.service.FinanceiroStorageService;
 import com.example.demo.service.LojaStorageService;
 import com.example.demo.service.UsuarioStorageService;
+import com.example.demo.util.Util;
 
 @Controller
 public class DocController {
@@ -50,6 +42,8 @@ public class DocController {
 	
 	@Autowired
 	private LojaStorageService lojaStorageService;
+	
+	private Util util;
 	
 	@GetMapping("/")
 	public String get(Model model) {
@@ -75,6 +69,7 @@ public class DocController {
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             List<String> list = br.lines().collect(Collectors.toList());
             
+            // Percorre cada registro do arquivo normalizando os dados
             for (int i = 0; i < list.size(); i++) {
             	 Financeiro fin = setValores(list.get(i));
             	 System.out.println(fin);
@@ -88,14 +83,14 @@ public class DocController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/downloadFile/{fileId}")
+	/*@GetMapping("/downloadFile/{fileId}")
 	public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Integer fileId){
 		Doc doc = docStorageService.getFile(fileId).get();
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(doc.getDocType()))
 				.header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+doc.getDocName()+"\"")
 				.body(new ByteArrayResource(doc.getData()));
-	}
+	}*/
 	
 	public Financeiro setValores(String att) throws ParseException {
 		
@@ -110,14 +105,16 @@ public class DocController {
 		String responsavel = att.substring(48, 62);
 		String loja = att.substring(62, 80);
 		
-		fin.setTipo(convetTipoOperacao(tipo));
-		fin.setData(convertToDate(data));
-		fin.setValor(convertToBigDecimal(valor));
+		fin.setTipo(util.convetStringToTipoOperacao(tipo));
+		fin.setData(util.convertStringToDate(data));
+		fin.setValor(util.convertStringToBigDecimal(valor));
 		fin.setCartao(cartao);
-		fin.setHora(convertToHours(hora));
+		fin.setHora(util.convertStringToHours(hora));
 		
+		// Remove os espaços em branco no fim da string
 		loja = StringUtils.trimWhitespace(loja);
 		
+		// Verifica se a loja já está cadastrada para que não tenha dados duplicados
 		Loja lojaObj = lojaStorageService.getLojaByNome(loja);
 		if(lojaObj == null) {
 			Loja lojaNova = new Loja(loja);
@@ -127,16 +124,23 @@ public class DocController {
 			fin.setLoja(lojaObj);
 		}
 		
+		// Remove os espaços em branco no fim da string
 		responsavel = StringUtils.trimWhitespace(responsavel);
 		
 		Usuario usuario = usuarioStorageService.getUsuario(cpf);
 		BigDecimal novoSaldo = new BigDecimal(0);
 		
+		/**
+		 * Verifica se o usuário já está cadastrado, 
+		 * caso positivo realiza o calculo do saldo.
+		 * Caso negativo, verifica se a operação é de entrada ou saída, 
+		 * caso a operação seja de saída o novo usuário é cadastrado com valor negativo. 
+		 */
 		if(usuario == null) {
 			if(tipo.equalsIgnoreCase("2") || tipo.equalsIgnoreCase("3") || tipo.equalsIgnoreCase("9")) {
-				novoSaldo = convertToBigDecimal(valor).negate();
+				novoSaldo = util.convertStringToBigDecimal(valor).negate();
 			} else {
-				novoSaldo = convertToBigDecimal(valor);
+				novoSaldo = util.convertStringToBigDecimal(valor);
 			}
 			Usuario user = new Usuario(responsavel, cpf, novoSaldo);
 			Usuario UsuarioSaved = usuarioStorageService.saveUsuario(user);
@@ -145,31 +149,31 @@ public class DocController {
 			fin.setUsuario(usuario);			
 			switch (tipo) {
 			case "1":
-				novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().add(util.convertStringToBigDecimal(valor));
 				break;
 			case "2":
-				novoSaldo = usuario.getSaldo().subtract(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().subtract(util.convertStringToBigDecimal(valor));
 				break;
 			case "3":
-				novoSaldo = usuario.getSaldo().subtract(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().subtract(util.convertStringToBigDecimal(valor));
 				break;
 			case "4":
-				novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().add(util.convertStringToBigDecimal(valor));
 				break;
 			case "5":
-				novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().add(util.convertStringToBigDecimal(valor));
 				break;
 			case "6":
-				novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().add(util.convertStringToBigDecimal(valor));
 				break;
 			case "7":
-				novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().add(util.convertStringToBigDecimal(valor));
 				break;
 			case "8":
-				novoSaldo = usuario.getSaldo().add(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().add(util.convertStringToBigDecimal(valor));
 				break;
 			case "9":
-				novoSaldo = usuario.getSaldo().subtract(convertToBigDecimal(valor));
+				novoSaldo = usuario.getSaldo().subtract(util.convertStringToBigDecimal(valor));
 				break;
 			default:
 				novoSaldo = usuario.getSaldo();
@@ -183,65 +187,4 @@ public class DocController {
 		return fin;
 		
 	}
-	
-	public BigDecimal convertToBigDecimal(String valor) {
-		
-		BigDecimal valorConvertido = new BigDecimal(valor);
-		BigDecimal divisor = new BigDecimal("100.00");
-		return valorConvertido.divide(divisor);
-	}
-	
-	public Date convertToDate(String data) throws ParseException{
-		
-		SimpleDateFormat formato = new SimpleDateFormat("yyyyMMdd");
-		return new Date(formato.parse(data).getTime());
-		
-	}
-	
-	public Time convertToHours(String hora) throws ParseException{
-		
-		SimpleDateFormat formato = new SimpleDateFormat("HHmmss");		
-		return new Time(formato.parse(hora).getTime());
-	}
-	
-	public TipoOperacao convetTipoOperacao(String tipo) {
-		
-		TipoOperacao result;
-		
-		switch (tipo) {
-		case "1":
-			result = TipoOperacao.DEBITO;
-			break;
-		case "2":
-			result = TipoOperacao.BOLETO;
-			break;
-		case "3":
-			result = TipoOperacao.FINANCIAMENTO;
-			break;
-		case "4":
-			result = TipoOperacao.CREDITO;
-			break;
-		case "5":
-			result = TipoOperacao.EMPRESTIMO;
-			break;
-		case "6":
-			result = TipoOperacao.VENDAS;
-			break;
-		case "7":
-			result = TipoOperacao.TED;
-			break;
-		case "8":
-			result = TipoOperacao.DOC;
-			break;
-		case "9":
-			result = TipoOperacao.ALUGUEL;
-			break;
-		default:
-			result = TipoOperacao.DEBITO;
-			break;
-		}
-		
-		return result;
-	}
-	
 }

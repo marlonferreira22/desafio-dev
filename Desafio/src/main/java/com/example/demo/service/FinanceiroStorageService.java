@@ -25,6 +25,7 @@ public class FinanceiroStorageService {
   
   public List<Financeiro> getFinancas(){
 	  
+	  // Faz um Distinct pelo nome da loja para que não sejam enviadas para o frontend lojas duplicadas
 	  return financeiroRepository.findAll().stream().filter(distinctByKey(p -> p.getLoja().getNome())).collect(Collectors.toList());
   }
   
