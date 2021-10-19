@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name="loja")
 public class Loja {
@@ -19,6 +21,7 @@ public class Loja {
 		
 	}	
 	
+	@ApiModelProperty(notes = "Identificador da loja")
 	public Integer getId() {
 		return id;
 	}
@@ -26,6 +29,7 @@ public class Loja {
 		this.id = id;
 	}
 
+	@ApiModelProperty(notes = "Nome da loja")
 	public String getNome() {
 		return nome;
 	}
