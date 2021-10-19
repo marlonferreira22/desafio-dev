@@ -81,7 +81,7 @@ public class DocController {
             	 
             	 financeiroStorageService.saveFinanceiro(fin);
      			
-     			 docStorageService.saveFile(file);
+     			 //docStorageService.saveFile(file);
 			}
 			
 		}
