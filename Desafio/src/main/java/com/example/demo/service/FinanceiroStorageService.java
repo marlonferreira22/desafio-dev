@@ -1,7 +1,14 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +31,24 @@ public class FinanceiroStorageService {
   }
   
   public List<Financeiro> getFinancas(){
-	  return financeiroRepository.findAll();
+	  
+	  return financeiroRepository.findAll().stream().filter(distinctByKey(p -> p.getLoja().getNome())).collect(Collectors.toList());
   }
   
   public Optional<Financeiro> getFinancasPorNome(String nome){
 	  return financeiroRepository.findAllByLoja(nome);
   }
 
-public List<Financeiro> getFinancasByLojaId(Integer lojaId) {
+  public List<Financeiro> getFinancasByLojaId(Integer lojaId) {
 	return financeiroRepository.findAllByLojaId(lojaId);
-}
+  }
+  
+  public static <T> Predicate<T> distinctByKey(
+		    Function<? super T, ?> keyExtractor) {
+		  
+		    Map<Object, Boolean> seen = new ConcurrentHashMap<>(); 
+		    return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null; 
+		}
   
   /*public Doc saveFile(MultipartFile file) {
 	  String docname = file.getOriginalFilename();
