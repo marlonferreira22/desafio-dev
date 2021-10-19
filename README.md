@@ -90,9 +90,11 @@ Boa sorte!
 
 **Tecnologias utilizadas:**
 
-Frontend: Thymeleaf e HTML
-Backend: Java 8, SpringBoot, Maven, Swagger
-Banco de dados: MySQL e H2
+.Frontend: Thymeleaf e HTML.
+
+Backend: Java 8, SpringBoot, Maven, Swagger.
+
+Banco de dados: MySQL e H2.
 
 **Configuração:**
 
@@ -110,6 +112,7 @@ Banco de dados: MySQL e H2
 
 **Acessos:**
 
-Para acessar via navegador, basta informar o endereco: http://localhost:8777/
-Foi gerada automaticamente a documentacao do endpoints utilizando Swagger, que pode ser acessa pelo endereco: http://localhost:8777/swagger-ui.html
-Endereco de exemplo para acessar um endpoint: http://localhost:8777/api/usuario
+Para acessar via navegador, basta informar o endereco: http://localhost:8777/ .
+
+Foi gerada automaticamente a documentacao do endpoints utilizando Swagger, que pode ser acessa pelo endereco: http://localhost:8777/swagger-ui.html .
+Endereco de exemplo para acessar um endpoint: http://localhost:8777/api/usuario .
