@@ -43,7 +43,7 @@ public class DocController {
 	@Autowired
 	private LojaStorageService lojaStorageService;
 	
-	private Util util;
+	private Util util = new Util();
 	
 	@GetMapping("/")
 	public String get(Model model) {
@@ -134,7 +134,7 @@ public class DocController {
 		 * Verifica se o usuário já está cadastrado, 
 		 * caso positivo realiza o calculo do saldo.
 		 * Caso negativo, verifica se a operação é de entrada ou saída, 
-		 * caso a operação seja de saída o novo usuário é cadastrado com valor negativo. 
+		 * caso a operação seja de saída o novo usuário é cadastrado com saldo negativo. 
 		 */
 		if(usuario == null) {
 			if(tipo.equalsIgnoreCase("2") || tipo.equalsIgnoreCase("3") || tipo.equalsIgnoreCase("9")) {

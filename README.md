@@ -105,14 +105,31 @@ Banco de dados: MySQL e H2.
 5. Salve o arquivo.
 6. Acesse seu MySQL e execute a seguinte query: CREATE SCHEMA `desafio_db` ;
 7. Vá para o diretorio /src do projeto e digite o comando: mvn clean install
-8. Quando o item 7 terminar, será criado um novo diretorio chamado "target", acesse este diretorio.
-9. Devera ter sido criado o arquivo "Desafio-0.0.1-SNAPSHOT.jar"
+7.1. Caso retorne erro, será necessário instalar o Maven. 
+    No Mac basta executar o comando: brew install maven
+    No Linux (Ubuntu) execute o comando: sudo apt install maven
+8. Quando o item 7 terminar, será criado um novo diretório chamado "target", acesse este diretório.
+9. Deverá ter sido criado o arquivo "Desafio-0.0.1-SNAPSHOT.jar"
 10. Em seguida, basta digitar o comando: java -jar Desafio-0.0.1-SNAPSHOT.jar e o projeto estará sendo executado.
 10.1. Caso o comando do item 10 tenha dado algum erro, pode ir para o diretorio raiz do projeto e executar o comando: ./mvnw spring-boot:run
 
 **Acessos:**
 
-Para acessar via navegador, basta informar o endereco: http://localhost:8777/ .
+Para acessar via navegador, basta informar o endereço: http://localhost:8777/ .
 
-Foi gerada automaticamente a documentacao do endpoints utilizando Swagger, que pode ser acessada pelo endereco: http://localhost:8777/swagger-ui.html .
-Segue exemplo de endereco para acessar um endpoint: http://localhost:8777/api/usuario 
+Foi gerada automaticamente a documentação do endpoints utilizando Swagger, que pode ser acessada pelo endereço: http://localhost:8777/swagger-ui.html .
+Para o consumo da API, segue exemplo de endereço: http://localhost:8777/api/financeiro 
+
+**Sobre o projeto:**
+
+Após realizar a configuração e executar o projeto, será possível acessá-lo via navegador pelo endereço http://localhost:8777/ esta página é carregada da seguinte forma:
+ - A requisição chega no controller chamado DocController que é responsável por carregar a página executando a função get().
+
+Quando é feito o upload do arquivo, esta requisição invoca o DocController função uploadMultipleFiles(). Esta função é responsável por realizar a leitura do arquivo, normalização dos dados, salvar no banco de dados e por fim realizar um redirect para que a página principal carregue as informações.
+
+Ainda na tela principal, quando os dados são carregados na tabela, é exibida as informações: Loja, Saldo e Link 
+    - Loja: Nome do estabelecimento
+    - Saldo: Resultado do cálculo feito entre as operações de entradas e saídas contidas no arquivo.
+    - Link: Endereço para redirecionar para a página contendo os detalhes de cada operação.
+
+
