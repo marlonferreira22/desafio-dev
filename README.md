@@ -122,13 +122,13 @@ Para o consumo da API, segue exemplo de endereço: http://localhost:8777/api/fin
 **Sobre o projeto:**
 
 Após realizar a configuração e executar o projeto, será possível acessá-lo via navegador pelo endereço http://localhost:8777/ esta página é carregada da seguinte forma:
- - A requisição chega no controller chamado DocController que é responsável por carregar a página executando a função get().
 
+A requisição chega no controller chamado DocController que é responsável por carregar a página executando a função get().
 Quando é feito o upload do arquivo, esta requisição invoca o DocController função uploadMultipleFiles(). Esta função é responsável por realizar a leitura do arquivo, normalização dos dados, salvar no banco de dados e por fim realizar um redirect para que a página principal carregue as informações.
 
 Ainda na tela principal, quando os dados são carregados na tabela, é exibida as informações: Loja, Saldo e Link 
-    - Loja: Nome do estabelecimento
-    - Saldo: Resultado do cálculo feito entre as operações de entradas e saídas contidas no arquivo.
-    - Link: Endereço para redirecionar para a página contendo os detalhes de cada operação.
+ - Loja: Nome do estabelecimento
+ - Saldo: Resultado do cálculo feito entre as operações de entradas e saídas contidas no arquivo.
+ - Link: Endereço para redirecionar para a página contendo os detalhes de cada operação.
 
 
