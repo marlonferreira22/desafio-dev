@@ -105,19 +105,18 @@ Banco de dados: MySQL e H2.
 5. Salve o arquivo.
 6. Acesse seu MySQL e execute a seguinte query: CREATE SCHEMA `desafio_db` ;
 7. Vá para o diretorio /src do projeto e digite o comando: mvn clean install
-7.1. Caso retorne erro, será necessário instalar o Maven. 
-    No Mac basta executar o comando: brew install maven
-    No Linux (Ubuntu) execute o comando: sudo apt install maven
+    7.1. Caso retorne erro, será necessário instalar o Maven. 
+    - No Mac basta executar o comando: brew install maven
+    - No Linux (Ubuntu) execute o comando: sudo apt install maven
 8. Quando o item 7 terminar, será criado um novo diretório chamado "target", acesse este diretório.
 9. Deverá ter sido criado o arquivo "Desafio-0.0.1-SNAPSHOT.jar"
 10. Em seguida, basta digitar o comando: java -jar Desafio-0.0.1-SNAPSHOT.jar e o projeto estará sendo executado.
-10.1. Caso o comando do item 10 tenha dado algum erro, pode ir para o diretorio raiz do projeto e executar o comando: ./mvnw spring-boot:run
 
 **Acessos:**
 
 Para acessar via navegador, basta informar o endereço: http://localhost:8777/ .
 
-Foi gerada automaticamente a documentação do endpoints utilizando Swagger, que pode ser acessada pelo endereço: http://localhost:8777/swagger-ui.html .
+Foi gerada automaticamente a documentação do endpoints utilizando Swagger, que pode ser acessada pelo endereço: http://localhost:8777/swagger-ui.html#/API .
 Para o consumo da API, segue exemplo de endereço: http://localhost:8777/api/financeiro 
 
 **Sobre o projeto:**
