@@ -104,8 +104,7 @@ Banco de dados: MySQL e H2.
 4. Caso o seu banco de dados não esteja no localhost, edite a linha 7 informando o ip e porta do seu MySQL.
 5. Salve o arquivo.
 6. Acesse seu MySQL e execute a seguinte query: CREATE SCHEMA `desafio_db` ;
-7. Vá para o diretorio /src do projeto e digite o comando: mvn clean install
-    7.1. Caso retorne erro, será necessário instalar o Maven. 
+7. Vá para o diretorio /src do projeto e digite o comando: mvn clean install .Caso retorne erro, será necessário instalar o Maven. 
     - No Mac basta executar o comando: brew install maven
     - No Linux (Ubuntu) execute o comando: sudo apt install maven
 8. Quando o item 7 terminar, será criado um novo diretório chamado "target", acesse este diretório.
